@@ -1,31 +1,36 @@
 const menuEmail = document.querySelector('.navbar-email');
 const menuHamIcon = document.querySelector('.menu');
 const menuCarritoIcon = document.querySelector('.navbar-shopping-cart');
+const productDetailCloseIcon = document.querySelector('.product-detail-close')
 const desktopMenu = document.querySelector('.desktop-menu');
 const mobileMenu = document.querySelector('.mobile-menu');
-const aside = document.querySelector('.product-detail');
+const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
+const productDetailContainer = document.querySelector('#productDetail');
 const cardsContainer = document.querySelector('.cards-container');
 
 menuEmail.addEventListener('click', toggleDesktopMenu);
 menuHamIcon.addEventListener('click', toggleMobileMenu);
 menuCarritoIcon.addEventListener('click', toggleCarritoAside);
+productDetailCloseIcon.addEventListener('click', closeProductDetailAside);
 
 function toggleDesktopMenu() {
-  const isAsideClosed = aside.classList.contains('inactive');
+  const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
 
   if (!isAsideClosed) {
-    aside.classList.add('inactive');
+    shoppingCartContainer.classList.add('inactive');
   }
   
   desktopMenu.classList.toggle('inactive');
 }
 
 function toggleMobileMenu() {
-  const isAsideClosed = aside.classList.contains('inactive');
+  const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
 
   if (!isAsideClosed) {
-    aside.classList.add('inactive'); 
+    shoppingCartContainer.classList.add('inactive'); 
   }
+
+  closeProductDetailAside();
   
   mobileMenu.classList.toggle('inactive');
 }
@@ -34,10 +39,25 @@ function toggleCarritoAside() {
   const isMobileMenuClosed = mobileMenu.classList.contains('inactive');
   
   if (!isMobileMenuClosed) {
-    mobileMenu.classList.add('inactive'); 
+    mobileMenu.classList.add('inactive');
+  }
+
+  const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
+  
+  if (!isProductDetailClosed) {
+    productDetailContainer.classList.add('inactive'); 
   }
   
-  aside.classList.toggle('inactive');
+  shoppingCartContainer.classList.toggle('inactive');
+}
+
+function openProductDetailAside() {
+  shoppingCartContainer.classList.add('inactive');
+  productDetailContainer.classList.remove('inactive');
+}
+
+function closeProductDetailAside() {
+  productDetailContainer.classList.add('inactive');
 }
 
 const productList = [];
@@ -49,12 +69,12 @@ productList.push({
 productList.push({
   name: 'Pantalla',
   price: 220,
-  image: 'https://www.jetcomputer.net/blog/wp-content/uploads/2022/10/1.png',
+  image: 'https://fotografias.lasexta.com/clipping/cmsimages01/2021/08/04/F80CD976-6299-407D-AF0D-14F40A563A19/98.jpg?crop=1300,731,x0,y7&width=1900&height=1069&optimize=high&format=webply',
 });
 productList.push({
   name: 'Compu',
   price: 620,
-  image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCgq41mdJM8k4TYssijGae9pB7L-VTLlbEaCa3ZMStLQ&s',
+  image: 'https://aprendelibvrefiles.blob.core.windows.net/aprendelibvre-container/course/informatica_basica/image/compescritorio-01_xl.png',
 });
 
 function renderProducts(arr) {
@@ -65,6 +85,7 @@ function renderProducts(arr) {
     // product= {name, price, image} -> product.image
     const productImg = document.createElement('img');
     productImg.setAttribute('src', product.image);
+    productImg.addEventListener('click', openProductDetailAside);
   
     const productInfo = document.createElement('div');
     productInfo.classList.add('product-info');
